@@ -1,4 +1,4 @@
-import PreviewServerMap from "../components/Home/PreviewServerMap";
+import PreviewServerMap from "../Home/PreviewServerMap";
 
 const Home = () => {
   return (
