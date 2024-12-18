@@ -4,7 +4,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { NavigateFunction } from "react-router-dom";
-import { refreshAccessToken, validateAccessToken } from "../token";
+import { refreshAccessToken, validateAccessToken } from "../auth";
 import { LoginState } from "../../store/useLoginStore";
 
 interface RetryConfig extends InternalAxiosRequestConfig {

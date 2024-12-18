@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { validateAccessToken } from "../../api/token";
+import { validateAccessToken } from "../../api/auth";
 import { useLoginStore } from "../../store/useLoginStore";
 import TokenRefreshAlert from "./TokenRefreshAlert";
 import { useTokenExpirationCheck } from "../../utils/checkTokenExpiration";

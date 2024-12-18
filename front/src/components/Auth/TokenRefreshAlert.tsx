@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useNavigate } from "react-router";
-import { refreshAccessToken } from "../../api/token";
+import { refreshAccessToken } from "../../api/auth";
 import { useLoginStore } from "../../store/useLoginStore";
 
 interface TokenRefreshAlertProps {
