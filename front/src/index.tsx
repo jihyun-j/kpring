@@ -9,7 +9,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { useLoginStore } from "./store/useLoginStore";
 import theme from "./theme/themeConfig";
-import interceptorSetup from "./utils/axiosInterceptor";
+import interceptorSetup from "./api/axios/axiosInterceptor";
 
 interface InterceptorSetupProps {
   children: React.ReactNode;

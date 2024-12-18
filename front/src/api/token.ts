@@ -1,4 +1,4 @@
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "./axios/axiosInstance";
 interface TokenPayload {
   exp: number; // 만료 시간 (유닉스 타임스탬프)
 }

@@ -1,4 +1,4 @@
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "./axios/axiosInstance";
 
 type FriendsType = {
   friendId: number;
