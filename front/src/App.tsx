@@ -3,9 +3,9 @@ import "./App.css";
 import AuthLayout from "./components/Auth/AuthLayout";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import Layout from "./components/Layout/Layout";
-import Home from "./pages/Home";
-import Join from "./pages/Join";
-import Login from "./pages/Login";
+import Home from "./components/pages/Home";
+import Join from "./components/pages/Join";
+import Login from "./components/pages/Login";
 import ServerMapWithTheme from "./components/Server/ServerMapWithTheme";
 
 function App() {
