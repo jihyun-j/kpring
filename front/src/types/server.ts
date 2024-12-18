@@ -1,3 +1,5 @@
+// * 맵 관련 타입 * //
+
 export interface ThemeType {
   id: string;
   name: string;
