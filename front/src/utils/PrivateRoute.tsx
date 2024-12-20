@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useLoginStore } from "../../store/useLoginStore";
+import { useLoginStore } from "../store/useLoginStore";
 
 interface PrivateRouteProps {
   children: JSX.Element;
