@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useServers from "@/hooks/server/useServers";
 import ServerCardItem from "../molecules/ServerCardItem";
-import ServerSearchAndFilterBar from "../organisms/ServerFilterBar";
+import ServerFilterBar from "../organisms/ServerFilterBar";
 import useServerCategories from "@/hooks/server/useCategories";
 
 const ServerCards = () => {
@@ -22,7 +22,7 @@ const ServerCards = () => {
 
   return (
     <React.Fragment>
-      <ServerSearchAndFilterBar
+      <ServerFilterBar
         tabs={processedCategories}
         activeTab={activeTab}
         onTabChange={setActiveTab}
