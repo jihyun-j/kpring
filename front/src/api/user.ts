@@ -1,7 +1,7 @@
 import axios from "axios";
 import axiosInstance from "./axios/axiosInstance";
-import { USER_API } from "./axios/requests";
 import * as UserTypes from "../types/user";
+import { USER_API } from "./axios/requests";
 
 // 회원가입
 export const join = async (
@@ -10,13 +10,14 @@ export const join = async (
   username: string
 ) => {
   try {
-    const response = await axiosInstance.post(USER_API.POST_REQUEST.join, {
-      email,
-      password,
-      username,
+    const response = await axiosInstance({
+      ...USER_API.POST_REQUEST.join,
+      data: {
+        email,
+        password,
+        username,
+      },
     });
-
-    // 회원가입 성공
     console.log("회원가입 성공:", response.data);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -33,9 +34,12 @@ export const join = async (
 // 로그인
 export const login = async (email: string, password: string) => {
   try {
-    const response = await axiosInstance.post(USER_API.POST_REQUEST.login, {
-      email,
-      password,
+    const response = await axiosInstance({
+      ...USER_API.POST_REQUEST.login,
+      data: {
+        email,
+        password,
+      },
     });
 
     const data = response.data;
@@ -65,10 +69,14 @@ export const login = async (email: string, password: string) => {
 };
 
 // 회원 검색
-export const searchUser = async (searchText: string, token: string) => {
+export const searchUser = async (
+  searchText: string,
+  token: string
+): Promise<UserTypes.SearchUserResultsResponse | undefined> => {
   try {
     if (searchText) {
-      const response = await axiosInstance(USER_API.GET_REQUEST.fetchUsers, {
+      const response = await axiosInstance({
+        ...USER_API.GET_REQUEST.fetchUsers,
         params: {
           search: searchText,
         },
@@ -76,65 +84,106 @@ export const searchUser = async (searchText: string, token: string) => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(response);
+      return response.data;
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-// 유저의 프로필 조회하기
-export const getUserProfile = async (userId: string, token: string) => {
+// 사용자 프로필 조회
+export const getUserProfile = async (
+  userId: string,
+  token: string
+): Promise<UserTypes.UserProfileResponse | undefined> => {
   try {
     if (userId) {
-      const response = await axiosInstance(
-        USER_API.GET_REQUEST.fetchProfile(userId),
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return response.data as UserTypes.UserProfileType;
+      const response = await axiosInstance({
+        ...USER_API.GET_REQUEST.fetchProfile(userId),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
     }
   } catch (error) {
-    console.error(error);
+    throw new Error("유저의 프로필 정보를 가져올 수 없습니다.");
   }
 };
 
-// * 친구 신청 api
-export const requestFriend = async (token: string | null) => {
-  const url = `${process.env.REACT_APP_BASE_URL}/user/api/v1/user/4/friend/2`;
+// 친구 목록 조회
+export const getFriends = async (
+  userId: string,
+  token: string
+): Promise<UserTypes.FriendsListResponse | undefined> => {
+  try {
+    if (userId) {
+      const response = await axiosInstance({
+        ...USER_API.GET_REQUEST.fetchFriends(userId),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    }
+  } catch (error) {
+    throw new Error("");
+  }
+};
 
+// 친구 신청
+export const requestFriend = async (
+  userId: string,
+  friendId: string,
+  token: string | null
+): Promise<UserTypes.RequestFriendResponse | undefined> => {
   try {
     const response = await axiosInstance({
-      method: "post",
-      url,
+      ...USER_API.POST_REQUEST.requestFriend(userId, friendId),
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     console.log(response.data);
-    return response.data as UserTypes.RequestFriendType;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-// * 친구 신청 조회 api
-export const viewFriendRequest = async (token: string) => {
-  const url = `${process.env.REACT_APP_BASE_URL}/user/api/v1/user/2/requests`;
+// 친구 신청 조회
+export const getFriendRequests = async (
+  userId: string,
+  token: string
+): Promise<UserTypes.FriendRequestsResponseType | undefined> => {
   try {
     const response = await axiosInstance({
-      method: "get",
-      url,
+      ...USER_API.GET_REQUEST.fetchFriendRequests(userId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 친구 삭제
+export const deleteFriend = async (
+  userId: string,
+  friendId: string,
+  token: string
+) => {
+  try {
+    const response = await axiosInstance({
+      ...USER_API.DELETE_REQUEST.deleteFriend(userId, friendId),
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    return response.data;
+    console.log(response.data);
   } catch (error) {
     console.log(error);
   }

@@ -24,28 +24,66 @@ export type JoinFormValidateErrors = {
   passwordConfirmError: string;
 };
 
-//  로그인 및 회원가입 유효성 폼
+// 회원 검색
+export type SearchUsers = {
+  userId: string;
+  email: string;
+  username: string;
+  file?: string;
+};
 
-//  회원검색
+export type SearchUserResultsResponse = {
+  data: {
+    users: SearchUsers[];
+  };
+};
 
 //  유저 프로필 조회
-export type UserProfileType = {
+export type UserProfile = {
   email: string;
   userId: string;
   username: string;
 };
 
-//  회원 정보 수정
-
-//  친구 조회, 신청, 삭제, 수락 관련 타입 * //
-export type FriendsType = {
-  friendId: number;
-  username: string;
-  email: string;
-  imagePath: string;
+export type UserProfileResponse = {
+  data: UserProfile;
 };
 
-export type RequestFriendType = {
+//  친구 목록 조회
+export type Friends = {
+  friendId: string;
+  username: string;
+  email: string;
+  imagePath?: string;
+};
+
+export type FriendsList = {
   userId: string;
-  friends: FriendsType[];
+  friends: Friends[];
+};
+
+export type FriendsListResponse = {
+  data: FriendsList;
+};
+
+// 친구 신청
+export type RequestFriendResponse = {
+  data: {
+    friendId: string;
+  };
+};
+
+// 친구 신청 조회
+export type FriendRequests = {
+  userId: string;
+  friendRequests: RequestedFriends[];
+};
+
+export type RequestedFriends = {
+  friendId: string;
+  username: string;
+};
+
+export type FriendRequestsResponseType = {
+  data: FriendRequests;
 };
