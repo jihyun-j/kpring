@@ -53,7 +53,7 @@ const ServerList: React.FC = () => {
           closeModal={() => closeModal("server")}>
           <ServerInfo
             hostName={server.hostName}
-            bookmarked={server.bookmarked}
+            serverId={server.id}
             categories={server.categories}
             onDelete={() => deleteServerHandler(server.id)}
             onEnter={() => enterServerHandler(server.id)}
