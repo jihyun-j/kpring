@@ -1,6 +1,5 @@
 import React from "react";
 import RadioButton from "../atoms/RadioButton";
-import { ThemeType } from "@/types/server";
 import Text from "../atoms/Text";
 
 const themeObj = [
