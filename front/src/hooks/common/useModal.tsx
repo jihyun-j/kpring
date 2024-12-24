@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type ModalType = "profile" | "addServer" | "server" | null;
+type ModalType = "profile" | "addServer" | "server" | "addFriend" | null;
 
 const useModal = () => {
   const [isOpen, setIsOpen] = useState(false);
