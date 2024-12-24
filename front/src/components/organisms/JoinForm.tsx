@@ -1,17 +1,14 @@
 import { useNavigate } from "react-router";
-import { RiLoginBoxFill } from "react-icons/ri";
-import { useLoginStore } from "@/store/useLoginStore";
-import { useLoginValidator } from "@/hooks/user/useLoginValidator";
-import { login } from "@/api/user";
-import FormField from "../molecules/FormField";
 import Button from "../atoms/Button";
+import { useJoinValidation } from "@/hooks/user/useJoinValidator";
+import FormField from "../molecules/FormField";
+import { join } from "@/api/user";
 
-const LoginForm = () => {
+const JoinForm = () => {
   const navigate = useNavigate();
-  const { setTokens } = useLoginStore();
 
   const { values, setValues, errors, validateFieldAndSetError, isFormValid } =
-    useLoginValidator();
+    useJoinValidation();
 
   const onChangeHandler =
     (field: keyof typeof values) =>
@@ -25,12 +22,9 @@ const LoginForm = () => {
     e.preventDefault();
 
     if (isFormValid()) {
-      const result = await login(values.email, values.password);
+      const result = await join(values.email, values.password, values.nickname);
 
-      if (result.refreshToken) {
-        setTokens(result.accessToken, result.refreshToken);
-      }
-
+      console.log("가입성공 ", result);
       setTimeout(() => {
         navigate("/");
       }, 3000);
@@ -39,14 +33,22 @@ const LoginForm = () => {
     }
   };
   return (
-    <form onSubmit={clickSubmitHandler} className="w-96 flex flex-col gap-3">
+    <form className="flex flex-col gap-3">
       <FormField
         value={values.email}
-        name="email"
         label="Email"
+        name="email"
         type="email"
         onChange={onChangeHandler("email")}
         message={errors.email}
+      />
+      <FormField
+        value={values.nickname}
+        name="nickname"
+        label="Nickname"
+        type="text"
+        onChange={onChangeHandler("nickname")}
+        message={errors.nickname}
       />
       <FormField
         value={values.password}
@@ -56,15 +58,20 @@ const LoginForm = () => {
         onChange={onChangeHandler("password")}
         message={errors.password}
       />
+      <FormField
+        value={values.passwordConfirm}
+        name="passwordConfirm"
+        label="Confirm Password"
+        type="password"
+        onChange={onChangeHandler("passwordConfirm")}
+        message={errors.passwordConfirm}
+      />
 
-      <Button
-        color="bg-dark"
-        onClick={clickSubmitHandler}
-        icon={<RiLoginBoxFill />}>
-        로그인
+      <Button color="" onClick={clickSubmitHandler}>
+        회원가입
       </Button>
     </form>
   );
 };
 
-export default LoginForm;
+export default JoinForm;
