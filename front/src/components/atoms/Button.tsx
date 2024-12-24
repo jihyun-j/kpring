@@ -3,7 +3,7 @@ type ButtonProps<
 > = {
   children: React.ReactNode;
   icon?: React.ReactNode;
-  onClick: (e: E) => void;
+  onClick?: (e: E) => void;
   color: string;
   disabled?: boolean;
 };
@@ -18,7 +18,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`${color} px-3 py-1.5`}
+      className={`flex justify-center items-center text-center ${color} px-3 py-1.5 rounded-md w-full`}
       onClick={onClick}
       disabled={disabled}>
       {icon}
