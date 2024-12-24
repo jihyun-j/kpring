@@ -3,6 +3,7 @@ import TextInput from "../atoms/TextInput";
 
 type FormFieldProps = {
   value: string;
+  name: string;
   type?: "text" | "email" | "password" | "number" | "tel";
   label?: string;
   placeholder?: string;
@@ -17,11 +18,13 @@ const FormField: React.FC<FormFieldProps> = ({
   placeholder,
   onChange,
   message,
+  name,
 }) => {
   return (
     <div>
       <TextInput
         value={value}
+        name={name}
         type={type}
         label={label}
         placeholder={placeholder}
