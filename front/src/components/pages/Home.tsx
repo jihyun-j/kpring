@@ -1,16 +1,11 @@
-import PreviewServerMap from "../Home/PreviewServerMap";
+import Hero from "../organisms/Hero";
+import ServerCards from "../templates/ServerCards";
 
 const Home = () => {
   return (
-    <div className="my-24 mx-72">
-      <div>
-        <h2 className="text-2xl font-bold">새로운 테마</h2>
-        <PreviewServerMap />
-      </div>
-
-      <div>
-        <h2 className="text-2xl font-bold">즐겨찾기한 서버들</h2>
-      </div>
+    <div className="max-w-7xl p-7">
+      <Hero />
+      <ServerCards />
     </div>
   );
 };
