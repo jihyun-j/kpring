@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import axiosInstance from "./axios/axiosInstance";
 import { AUTH_API } from "./axios/requests";
 
@@ -40,30 +41,34 @@ export function getTokenExpiration(token: string): number {
 }
 
 // 토큰 검증 API
-export async function validateAccessToken(token: string): Promise<boolean> {
+export async function validateAccessToken(
+  token: string
+): Promise<{ isValid: boolean; userId: string | null }> {
   try {
-    const response = await axiosInstance.post(
-      AUTH_API.POST_REQUEST.validation,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log("액세스 토큰 응답 상태(status):", response.status);
-    console.log("액세스토큰 응답 데이터:", response.data);
+    const response = await axiosInstance({
+      ...AUTH_API.POST_REQUEST.validation,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
+    console.log("토큰 검증 응답 상태(status):", response.status);
     if (response.status === 200) {
+      const userId = response.data.userId;
       console.log("토큰 검증 성공:", response.data);
-      return true;
+      Cookies.set("userId", userId, {
+        path: "/",
+        expires: 1 / 24,
+        secure: true,
+      });
+      return { isValid: true, userId };
     } else {
       console.error("토큰 검증 실패:", response.data);
-      return false;
+      return { isValid: false, userId: null };
     }
   } catch (error) {
     console.error("토큰 검증 중 오류 발생:", error);
-    return false;
+    return { isValid: false, userId: null };
   }
 }
 
@@ -73,10 +78,10 @@ export async function refreshAccessToken(
 ): Promise<{ accessToken: string; refreshToken: string } | null> {
   // console.log("리프레시 토큰으로 새로운 액세스 토큰 요청:", refreshToken);
   try {
-    const response = await axiosInstance.post(
-      AUTH_API.POST_REQUEST.accessToken,
-      { refreshToken }
-    );
+    const response = await axiosInstance({
+      ...AUTH_API.POST_REQUEST.accessToken,
+      data: { refreshToken },
+    });
     console.log("새로운 액세스 토큰 응답 상태(status):", response.status);
     console.log("새로운 액세스 토큰 응답 데이터 :", response.data);
 
